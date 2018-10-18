@@ -85,7 +85,19 @@ namespace AuctionSite.Api.Controllers {
 		}
 
 		[HttpPost("auctions")]
-		public void CreateAuction([FromBody] string value) {
+		public async Task<ActionResult> CreateAuction([FromBody] dynamic body) {
+			using(var db = EstablishDatabaseConnection()) {
+				await db.ExecuteAsync(
+					"insert into auctions (id, title) " +
+					"values(@id, @title)", 
+					new {
+						body.id, 
+						body.title
+					} 
+				);
+			}	
+
+			return new StatusCodeResult((int)HttpStatusCode.Created);
 		}
 	}
 }
