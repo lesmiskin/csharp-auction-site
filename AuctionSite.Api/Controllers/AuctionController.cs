@@ -19,6 +19,9 @@ namespace AuctionSite.Api.Controllers {
 
 		#endregion
 
+		/// <summary>
+		/// One-time setup to initialise the database structure, and establish fresh data.
+		/// </summary>
 		[HttpGet("setup")]
 		public ActionResult<string> Setup() {
 			// Read setup script from disk.
