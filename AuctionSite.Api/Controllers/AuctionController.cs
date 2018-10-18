@@ -11,9 +11,13 @@ using System.Data;
 namespace AuctionSite.Api.Controllers {
 	[ApiController]
 	public class AuctionController : ControllerBase {
+		#region Privates
+
 		private IDbConnection EstablishDatabaseConnection() {
 			return new SQLiteConnection(@"data source=Database\sqlite.db");
 		}
+
+		#endregion
 
 		[HttpGet("setup")]
 		public ActionResult<string> Setup() {
