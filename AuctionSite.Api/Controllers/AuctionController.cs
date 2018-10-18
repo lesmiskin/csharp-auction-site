@@ -88,10 +88,9 @@ namespace AuctionSite.Api.Controllers {
 		public async Task<ActionResult> CreateAuction([FromBody] dynamic body) {
 			using(var db = EstablishDatabaseConnection()) {
 				await db.ExecuteAsync(
-					"insert into auctions (id, title) " +
-					"values(@id, @title)", 
+					"insert into auctions (title) " +
+					"values(@title)", 
 					new {
-						body.id, 
 						body.title
 					} 
 				);
