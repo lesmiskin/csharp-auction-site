@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dapper;
 using System.Data.SQLite;
 using System.Data;
+using System.Net;
 
 namespace AuctionSite.Api.Controllers {
 	[ApiController]
@@ -23,7 +24,7 @@ namespace AuctionSite.Api.Controllers {
 		/// One-time setup to initialise the database structure, and establish fresh data.
 		/// </summary>
 		[HttpGet("setup")]
-		public ActionResult<string> Setup() {
+		public ActionResult Setup() {
 			// Read setup script from disk.
 			var setupScript = System.IO.File.ReadAllText(@"Database\create-database-structure.sql");
 
@@ -32,9 +33,8 @@ namespace AuctionSite.Api.Controllers {
 				db.Execute(setupScript);
 			}
 
-			// Tell the client everything went ok (otherwise, details of the unhandled exception will 
-			// be shown to them).
-			return "Succeeded";
+			// Indicate success with a CREATED http response.
+			return new StatusCodeResult(201);
 		}
 
 		[HttpGet("auctions")]
