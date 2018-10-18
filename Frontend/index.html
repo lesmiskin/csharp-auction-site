@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>C# auction site</title>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script>
+        // put the auctions on the page, drawing from our API backend.
+        $.getJSON('https://localhost:44361/auctions', (auctions) => {
+            auctions.forEach((auction) => {
+                $('body').append(`<div>${auction.title} (id: ${auction.id})</div>`);
+            });
+        });
+    </script>        
+</head>
+<body>
+
+</body>
+</html>
