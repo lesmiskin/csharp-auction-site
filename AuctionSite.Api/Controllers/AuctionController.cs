@@ -50,21 +50,41 @@ namespace AuctionSite.Api.Controllers {
 		}
 
 		[HttpGet("auctions/{id}")]
-		public async Task<ActionResult<dynamic>> GetAuction(int id) {
+		public async Task<ActionResult<dynamic>> GetAuction(
+			int id
+		) {
 			using(var db = EstablishDatabaseConnection()) {
 				return await db.QuerySingleAsync(
-					"select * from auctions where id = @id", new {
-					id
-				} );
+					"select * from auctions " + 
+						"where id = @id", 
+					new {
+						id
+					} 
+				);
 			}	
 		}
 
-		[HttpPost("auction/{id}")]
-		public ActionResult<string> UpdateAuction(int id) {
-			return "value";
+		[HttpPost("auctions/{id}")]
+		public async Task<ActionResult> UpdateAuction(
+			int id, 
+			[FromBody] dynamic body
+		) {
+			using(var db = EstablishDatabaseConnection()) {
+				await db.ExecuteAsync(
+					"update auctions " +
+						"set title = @title " +
+						"where id = @id", 
+					new {
+						id, 
+						body.title
+					} 
+				);
+			}	
+
+			return new StatusCodeResult((int)HttpStatusCode.OK);
 		}
 
-		[HttpPost("auction")]
+		[HttpPost("auctions")]
 		public void CreateAuction([FromBody] string value) {
 		}
 	}
