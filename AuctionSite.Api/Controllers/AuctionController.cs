@@ -26,7 +26,9 @@ namespace AuctionSite.Api.Controllers {
 		[HttpGet("setup")]
 		public async Task<ActionResult> Setup() {
 			// Read setup script from disk.
-			var setupScript = System.IO.File.ReadAllText(@"Database\create-database-structure.sql");
+			var setupScript = System.IO.File.ReadAllText(
+				@"Database\create-database-structure.sql"
+			);
 
 			// Run the script against the database.
 			using(var db = EstablishDatabaseConnection()) {
@@ -41,13 +43,20 @@ namespace AuctionSite.Api.Controllers {
 		public async Task<ActionResult<IEnumerable<dynamic>>> Auctions() {
 			// return list of auctions *straight* from the database.
 			using(var db = EstablishDatabaseConnection()) {
-				return (await db.QueryAsync<dynamic>("select * from auctions")).ToList();
+				return (await db.QueryAsync(
+					"select * from auctions"
+				)).ToList();
 			}	
 		}
 
-		[HttpGet("auction/{id}")]
-		public ActionResult<string> GetAuction(int id) {
-			return "value";
+		[HttpGet("auctions/{id}")]
+		public async Task<ActionResult<dynamic>> GetAuction(int id) {
+			using(var db = EstablishDatabaseConnection()) {
+				return await db.QuerySingleAsync(
+					"select * from auctions where id = @id", new {
+					id
+				} );
+			}	
 		}
 
 		[HttpPost("auction/{id}")]
