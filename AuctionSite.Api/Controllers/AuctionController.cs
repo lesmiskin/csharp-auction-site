@@ -24,13 +24,13 @@ namespace AuctionSite.Api.Controllers {
 		/// One-time setup to initialise the database structure, and establish fresh data.
 		/// </summary>
 		[HttpGet("setup")]
-		public ActionResult Setup() {
+		public async Task<ActionResult> Setup() {
 			// Read setup script from disk.
 			var setupScript = System.IO.File.ReadAllText(@"Database\create-database-structure.sql");
 
 			// Run the script against the database.
 			using(var db = EstablishDatabaseConnection()) {
-				db.Execute(setupScript);
+				await db.ExecuteAsync(setupScript);
 			}
 
 			// Indicate success with a CREATED http response.
@@ -38,10 +38,10 @@ namespace AuctionSite.Api.Controllers {
 		}
 
 		[HttpGet("auctions")]
-		public ActionResult<IEnumerable<dynamic>> Auctions() {
+		public async Task<ActionResult<IEnumerable<dynamic>>> Auctions() {
 			// return list of auctions *straight* from the database.
 			using(var db = EstablishDatabaseConnection()) {
-				return db.Query<dynamic>("select * from auctions").ToList();
+				return (await db.QueryAsync<dynamic>("select * from auctions")).ToList();
 			}	
 		}
 
