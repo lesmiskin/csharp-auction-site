@@ -38,8 +38,11 @@ namespace AuctionSite.Api.Controllers {
 		}
 
 		[HttpGet("auctions")]
-		public ActionResult<string> Auctions() {
-			return "value";
+		public ActionResult<IEnumerable<dynamic>> Auctions() {
+			// return list of auctions *straight* from the database.
+			using(var db = EstablishDatabaseConnection()) {
+				return db.Query<dynamic>("select * from auctions").ToList();
+			}	
 		}
 
 		[HttpGet("auction/{id}")]
