@@ -1,7 +1,7 @@
 # non-idiotic microsoft entries
 
 # no need to include the DB file, since this can be generated at any time.
-Database/sqlite.db
+/AuctionSite.Api/Database/sqlite.db
 
 
 # =========================================================
