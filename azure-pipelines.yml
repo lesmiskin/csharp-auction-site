@@ -10,5 +10,5 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build api/*.sln --configuration $(buildConfiguration)
+- script: dotnet build csharp-auction-site/API/AuctionSite.Api/AuctionSite.Api.csproj --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
